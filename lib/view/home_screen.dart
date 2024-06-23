@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_api/logic/get_api_cubit.dart';
+import 'package:simple_api/logic/get_by_group_cubit.dart';
 import 'package:simple_api/logic/post_api_cubit.dart';
+import 'package:simple_api/model/get_by_group.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     context.read<GetApiCubit>().getapi();
-
+    context.read<GetByGroupCubit>().getbygroup();
     super.initState();
   }
 
@@ -64,7 +66,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       .read<PostApiCubit>()
                       .postapi(phonenumber: phonenumberController.text);
                 },
-                child: Text("Send OTP"))
+                child: Text("Send OTP")),
+
+
+                BlocBuilder<GetByGroupCubit, GetByGroupState>(
+                  builder: (context, state) {
+                    if (state is GetByGroupLoading) {
+                      return Center(child: CircularProgressIndicator(),);
+                    }else if (state is GetByGroupError) {
+                      return Center(child: Text(state.errorMessage.toString()),);
+                    }else if (state is GetByGroupSuccess) {
+                      return Column(
+                        children: [
+                          Text(state.getByGroup?.data?[0].status??""),
+                        ],
+                      );
+                    }
+                    return Container();
+                  },
+                )
           ],
         ),
       ),
