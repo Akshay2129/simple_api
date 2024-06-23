@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_api/logic/get_api_cubit.dart';
+import 'package:simple_api/logic/post_api_cubit.dart';
 import 'package:simple_api/view/home_screen.dart';
 void main() {
   runApp(
@@ -9,6 +10,7 @@ void main() {
         BlocProvider(
           create: (context) => GetApiCubit(),
         ),
+        BlocProvider(create: (context) => PostApiCubit(),)
        
       ],
       child: MyApp(),
